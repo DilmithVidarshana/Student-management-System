@@ -1,0 +1,623 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Gui;
+
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.intellijthemes.FlatGruvboxDarkSoftIJTheme;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Vector;
+import javax.swing.ButtonModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.mysql;
+
+/**
+ *
+ * @author dilmi
+ */
+public class studentEnrolment extends javax.swing.JFrame {
+    
+    public static HashMap<String,Integer> cityMap = new HashMap();
+    public static  HashMap<String,Integer> subjectMap = new HashMap();
+    public static HashMap<String,Integer> classMap = new HashMap();
+
+    /**
+     * Creates new form student_enrolment
+     */
+    public studentEnrolment() {
+        initComponents();
+        loadcity();
+        loadsubject();
+        loadclass();
+        loadStudent();
+    }
+    private void loadcity(){
+    
+        try{
+     ResultSet cityResult = mysql.execute("SELECT * FROM `city` ");
+     
+     Vector city = new Vector();
+     city.add("Select City");
+     
+     while(cityResult.next()){
+         city.add(cityResult.getString("city_name"));
+       cityMap.put(cityResult.getString("city_name"),cityResult.getInt("city_id"));
+     }
+    DefaultComboBoxModel citymodel = new  DefaultComboBoxModel(city);
+    jComboBox2.setModel(citymodel);
+    
+     }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    private void loadsubject(){
+    
+         try{
+            ResultSet subjectResult = mysql.execute("SELECT * FROM `subject`");
+            
+            Vector subject = new Vector();
+            subject.add("Select Subject");
+            
+            while(subjectResult.next()){
+             subject.add(subjectResult.getString("Subject_name"));
+             subjectMap.put(subjectResult.getString("Subject_name"),subjectResult.getInt("Subno"));
+            }
+             DefaultComboBoxModel subjectmodel = new  DefaultComboBoxModel(subject);
+              jComboBox1.setModel(subjectmodel);
+          }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    private void loadclass(){
+    
+         try{
+            ResultSet ClassResult = mysql.execute("SELECT * FROM `class`");
+            
+            Vector Class = new Vector();
+            Class.add("Select Class");
+            
+            while(ClassResult.next()){
+             Class.add(ClassResult.getString("Class_name"));
+             classMap.put(ClassResult.getString("Class_name"),ClassResult.getInt("ClassNo"));
+            }
+             DefaultComboBoxModel classmodel = new  DefaultComboBoxModel(Class);
+              jComboBox3.setModel(classmodel);
+          }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    private void loadStudent(){
+    try{
+         ResultSet studentresult = mysql.execute("SELECT * FROM `student` INNER JOIN `subject` ON `student`.`Subject_Subno`=`subject`.`Subno`"
+         +"INNER JOIN `class` ON `student`.`Class_ClassNo`=`class`.`ClassNo`"
+         +"INNER JOIN `gender` ON `student`.`Gender_gender_id`=`gender`.`gender_id`");
+         
+          DefaultTableModel model =(DefaultTableModel)jTable1.getModel();
+            model.setRowCount(0);
+            
+         while(studentresult.next()){
+             
+         Vector<String> student = new Vector();
+         
+         student.add(studentresult.getString("Sno"));
+         student.add(studentresult.getString("First_Name"));
+         student.add(studentresult.getString("Last_Name"));
+         student.add(studentresult.getString("Mobile"));
+         student.add(studentresult.getString("dob"));
+         student.add(studentresult.getString("gender"));
+         student.add(studentresult.getString("Class_name"));
+         student.add(studentresult.getString("Subject_name"));
+               
+                        model.addRow(student);
+                  jTable1.setModel(model);
+         }
+
+                  
+             }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    
+    private void reset(){
+    
+    jTextField4.setText("");
+    jTextField8.setText("");
+    jTextField5.setText("");
+    jTextField9.setText("");
+    jTextField6.setText("");
+    
+    jDateChooser1.setDate(null);
+    
+    buttonGroup1.clearSelection();
+    jComboBox1.setSelectedIndex(0);
+    jComboBox2.setSelectedIndex(0);
+    jComboBox3.setSelectedIndex(0);
+    }
+ 
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jTextField5 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jLabel8 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        jTextField8 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jTextField9 = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jButton7 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("ROG Fonts", 3, 24)); // NOI18N
+        jLabel1.setText("Student enrolment");
+
+        jButton2.setFont(new java.awt.Font("ROG Fonts", 0, 13)); // NOI18N
+        jButton2.setText("student atendance");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setFont(new java.awt.Font("ROG Fonts", 0, 13)); // NOI18N
+        jButton3.setText("student payment");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel3.setText("Student  First Name");
+
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel4.setText("Student Address Line1");
+
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel5.setText("Mobile Number");
+
+        jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel6.setText("Date of birth");
+
+        jButton5.setFont(new java.awt.Font("ROG Fonts", 1, 14)); // NOI18N
+        jButton5.setText("Register Student");
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setFont(new java.awt.Font("ROG Fonts", 1, 14)); // NOI18N
+        jButton4.setText("Upadte Student details");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Student Number", "Studnet First Name", "Studnet Last Name", "Mobile Number", "Date of birth", "gender", "Class", "subject"
+            }
+        ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel7.setText("Gender");
+
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setText("Male");
+        jRadioButton1.setActionCommand("1");
+
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setText("Female");
+        jRadioButton2.setActionCommand("2");
+
+        jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel8.setText("select subject ");
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Class" }));
+
+        jLabel9.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel9.setText("Select city");
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select City" }));
+
+        jLabel10.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel10.setText("Student Last Name");
+
+        jLabel11.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel11.setText("Student Address Line2");
+
+        jLabel12.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel12.setText("Select Class");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select subject" }));
+
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/3643764_back_backward_left_reply_turn_icon.png"))); // NOI18N
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
+
+        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton1.setText("Search");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(219, 219, 219)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(822, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1))
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel12)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jRadioButton1)
+                            .addComponent(jLabel7))
+                        .addGap(18, 18, 18)
+                        .addComponent(jRadioButton2))
+                    .addComponent(jTextField4)
+                    .addComponent(jTextField8)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel8)
+                            .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                            .addComponent(jTextField5)))
+                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField6)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 833, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(269, 269, 269))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(25, 25, 25)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jRadioButton1)
+                            .addComponent(jRadioButton2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 863, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    
+    String FirstName = jTextField4.getText();
+     String LastName = jTextField8.getText();
+    String AddressLine1 = jTextField5.getText();
+     String AddressLine2 = jTextField9.getText();
+    String Mobile = jTextField6.getText();
+    
+    SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+    Date dob = jDateChooser1.getDate();
+    
+    ButtonModel GenderId = buttonGroup1.getSelection();
+    String Subject = String.valueOf(jComboBox1.getSelectedItem());
+    String City = String.valueOf(jComboBox2.getSelectedItem());
+    String Class = String.valueOf(jComboBox3.getSelectedItem());
+    
+    
+      
+     if(FirstName.isEmpty()){
+      JOptionPane.showMessageDialog(this, "Enter  Student First Name",
+                               "WARNING", JOptionPane.WARNING_MESSAGE);
+      }else if(LastName.isEmpty()){
+      JOptionPane.showMessageDialog(this, "Enter  Student Last Name",
+                               "WARNING", JOptionPane.WARNING_MESSAGE);
+     }else if(AddressLine1.isEmpty()){
+      JOptionPane.showMessageDialog(this, "Enter  Student Address Line 1",
+                               "WARNING", JOptionPane.WARNING_MESSAGE);
+      }else if(AddressLine2.isEmpty()){
+      JOptionPane.showMessageDialog(this, "Enter  Student Address Line 2",
+                               "WARNING", JOptionPane.WARNING_MESSAGE);
+     }else if(Mobile.isEmpty()){
+      JOptionPane.showMessageDialog(this, "Enter  Student Mobile Number",
+                               "WARNING", JOptionPane.WARNING_MESSAGE);
+     }else if(dob == null){
+      JOptionPane.showMessageDialog(this, "Enter  Student Date Of Birth",
+                               "WARNING", JOptionPane.WARNING_MESSAGE);
+     }else if(GenderId == null){
+     JOptionPane.showMessageDialog(this, "Select Geneder",
+                               "WARNING", JOptionPane.WARNING_MESSAGE);
+     }else if(Subject.equals("Select Subject")){
+     JOptionPane.showMessageDialog(this, "Select Subject",
+                               "WARNING", JOptionPane.WARNING_MESSAGE);
+     }else if(City.equals("Select city")){
+     JOptionPane.showMessageDialog(this, "Select City",
+                               "WARNING", JOptionPane.WARNING_MESSAGE);
+     }else if(City.equals("Select Class")){
+     JOptionPane.showMessageDialog(this, "Select CLass",
+                               "WARNING", JOptionPane.WARNING_MESSAGE);
+     }else{
+     
+     try{
+         
+          ResultSet studentResultset = mysql.execute("SELECT * FROM `student`"
+           +"WHERE `First_Name`='"+FirstName+"' AND `Last_Name`='"+LastName+"'AND `mobile`='"+Mobile+"'");
+          
+          if(studentResultset.next()){
+               JOptionPane.showMessageDialog(this, "This student already exsite","Warning",JOptionPane.WARNING_MESSAGE);
+          }else{
+              
+              mysql.execute("INSERT INTO"
+              +"`address` (`adress_line1`,`adress_line2`,`city_city_id`)"
+              +"VALUES ('"+AddressLine1+"','"+AddressLine2+"','"+cityMap.get(City)+"')");
+              
+             ResultSet addressResult = mysql.execute("SELECT * FROM `address`"
+                     + "WHERE `adress_line1`='"+AddressLine1+"' AND `adress_line2`= '"+AddressLine2+"' AND `city_city_id`='"+cityMap.get(City)+"'");
+             addressResult.next();
+             
+             mysql.execute("INSERT INTO"
+             +"`student` (`First_Name`,`Last_Name`,`dob`,`Address_adress_id`,`mobile`,`Gender_gender_id`,`Subject_Subno`,`Class_ClassNo`,`status`)"
+             +"VALUES ('"+FirstName+"','"+LastName+"','"+date.format(dob)+"','"+addressResult.getString("adress_id")+"','"+Mobile+"','"+GenderId.getActionCommand()+"','"+subjectMap.get(Subject)+"','"+classMap.get(Class)+"','1')");
+             
+             JOptionPane.showMessageDialog(this, "Student Regester SuccessFull",
+                               "information", JOptionPane.INFORMATION_MESSAGE);
+             reset();
+             loadStudent();
+          }
+         
+           }catch(Exception e){
+            e.printStackTrace();
+        }
+     }
+     
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        home home = new home();
+        home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        studentAttendance sa = new studentAttendance();
+        sa.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+     payment pay = new payment();
+     pay.setVisible(true);
+     this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        try{
+         ResultSet searchDetails = mysql.execute("SELECT * FROM``student` INNER JOIN `address` ON `student`.`Address_adress_id`=`address`.`adress_id`"
+         +"INNER JOIN `subject` ON `student`.`Subject_Subno`=`subject`.`Subno`"
+         +"INNER JOIN `class` ON `student`.`Class_ClassNo`=`classs`.`ClassNo`"
+         +"INNER JOIN `gender` ON `student`.`Gender_gender_id`=`gender`.`gender_id`");
+         
+         while(searchDetails.next()){
+         
+         }
+          }catch(Exception e){
+            e.printStackTrace();
+    }
+    }//GEN-LAST:event_jTextField1KeyReleased
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+       studentUpdate su = new studentUpdate();
+       su.setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+       FlatDarkLaf.setup();
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new studentEnrolment().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextField9;
+    // End of variables declaration//GEN-END:variables
+}
